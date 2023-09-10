@@ -1,0 +1,30 @@
+kubernetesClusterDomain: cluster.local
+ordpress:
+  ports:
+  - port: 80
+    targetPort: 0
+  type: LoadBalancer
+  wordpress:
+    env:
+      wordpressDbHost: wordpress-mysql
+      wordpressDbUser: wordpress
+    image:
+      repository: wordpress
+      tag: 6.2.1-apache
+ordpressMysql:
+  mysql:
+    env:
+      mysqlDatabase: wordpress
+      mysqlUser: wordpress
+    image:
+      repository: mysql
+      tag: "8.0"
+  ports:
+  - port: 3306
+    targetPort: 0
+  type: ClusterIP
+pvc:
+  mysqlPvClaim:
+    storageRequest: 20Gi
+  pPvClaim:
+    storageRequest: 20Gi
